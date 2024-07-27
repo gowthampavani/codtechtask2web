@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather forecast App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Weather forecast</h1>
+		<div class="search-box">
+        <input type="text" id="city-Input" placeholder="Enter a city name">
+        <button id="search-btn">Search</button>
+		</div>
+        <div  id="weather-info" class="Weather-info">
+            <h2 id="city-name"></h2>
+            <p id="temperature"></p>
+            <p id="description"></p>
+			<img id="Weather-icon" alt="Weather-icon">
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
+body {
+	
+    font-family:arial, sans-serif;
+	background-color: #f2f2f2;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+.container {
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0,1);
+	text-align: center;
+	width: 300px;
+}
+.search-box {
+	margin-bottom: 20px;
+}
+#city-input {
+	width: 80%;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+#search-btn {
+	padding: 10px 15px;
+	border: none;
+	background-color: #007BFF;
+	color: #fff;
+	border-radius: 5px;
+	cursor: pointer;
+}
+#search-btn:hover {
+	background-color: #0056b3;
+}
+.weather-info {
+	display: none;
+}
+.weather-info img {
+	width: 100px;
+    height: 100px;
+}
+document.getElementBYID('Search-btn').addEventListener('Click', () => {
+	Const City = document.getElementBYID('City-input').value;
+	getWeatherData(City);
+});
+
+async function getWeatherData(city) {
+	const apikey = 'https://api.openweathermap.org/data/2.5/weather?lat={lat} & lon={lon} &appid={APT key}';
+	const apiurl= 'https://api:openweathermap.org/data/2.5weather?q=${city}&units=metric&appid=${apikey}';
+	
+	try {
+		const response = await fetch(apiurl);
+		const data = await response.json();
+		displayweatherData(data);
+	} catch (error) {
+		console.error('Error fetching weather data:', error);
+	}
+}
+function displayweatherData(data) {
+	if (data.cod === '404') {
+		alert('city not found');
+		return;
+	}
+	
+	document.getElementBYID('City-name').textContent = data.name;
+	document.getElementBYID('temperature').textContent = 'temperature: ${data.main.temp}0c';
+	document.getElementBYID('description').textContent = 'weather: ${data.weather[0].description}';
+	document.getElementBYID('weather-icon').src = 'http://openweather.org/img/wn/${data.weather[0].icon}@2x.p
+	document.querySelector('.weather-info').style.display = 'block';
+}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+	
+	
+
+  
